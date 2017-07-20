@@ -1,0 +1,1 @@
+{"title":"Phong/Lambert shading","tags":["fsharp","series:fsharp-raytracer","series:fsharp-raytracer:3"],"blurb":"A simple Lambert shader gives adds depth to our spheres. Lighting is proportional to the cosine of the angle between the light and the surface normal","image":"http://i.imgur.com/4ljFFvE.png","created":1377126994000}
