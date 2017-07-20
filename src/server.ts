@@ -8,10 +8,15 @@ function Async(f){
 	return new Promise(g);
     }
 }
+const asyncListDir = Async(fs.readdir);
 const asyncReadFile = Async(fs.readFile);
-const sanitizeFile = name => (/^[.\-a-zA-Z0-9]+$/.exec(name)||[])[0];
+const sanitizeFile = name => (/^[_.\-a-zA-Z0-9]+$/.exec(name)||[])[0];
 
 const app = Express()
+app.use('/styles', Express.static(__dirname + '/../styles'));
+app.use('/images', Express.static(__dirname + '/../images'));
+app.use(Express.static(__dirname + '/../../httproot'));
+
 app.set('view engine', 'ejs');
 app.get('/post/:name', getPost)
 
@@ -35,9 +40,24 @@ async function getGallery(req, resp) {
 app.get('/', getIndex);
 async function getIndex(req, resp) {
     try {
-	var content = 'welcome!';
-	resp.render('post', {content: content.toString()});
+	await listPosts(req, resp);
     } catch(e) { resp.end(e.toString()); }
 }
 
-app.listen(9123, function () {console.log (this.address())})
+app.get('/post', listPosts);
+async function listPosts(req, resp) {
+    try {
+	var meta_str = (await asyncReadFile('pages/pages.meta.json')).toString();
+	var meta = meta_str.split('\n').filter(x => x)
+	    .map(s => { try { return JSON.parse(s) } catch (e) { return null }})
+	    .filter(x => x);
+	meta.map(m => {
+	    m.tags = m.tags || [];
+	    m.filename = m.filename.replace('.md', '');
+	});
+	meta.sort((a,b) => -(a.created||0) + (b.created||0));
+	resp.render('pagelist', {content: meta});
+    } catch(e) { resp.end(e.toString()); }
+}
+
+app.listen(8081, function () {console.log (this.address())})
