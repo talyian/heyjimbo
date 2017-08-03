@@ -123,4 +123,8 @@ came up multiple times during the course of this project. A couple examples:
 
 ![](/images/procedural_castle/towers.png)
 
+### Get the Code
+
+http://github.com/talyian/procedural_castle
+
 All in all, This was quite a fun project. Feel free to play with and extend the code - Even if you aren't familiar with F#, the overall structure of the code should make sense. If you're on OSX or Linux, the included Makefile should work assuming you have `mono` and `fsharp` installed. If you're on Windows, you're on your own, but try to open the included fsproj in Visual Studio.

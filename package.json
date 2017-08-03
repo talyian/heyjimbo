@@ -1,21 +1,24 @@
 {
-  "name": "heyjimbo",
-  "version": "2.0.0",
-  "description": "heyjimbo website",
-  "main": "build/server.js",
-  "repository": "heyjimbo.com",
-  "author": "Jimmy",
-  "license": "MIT",
-  "dependencies": {
-    "ejs": "^2.5.6",
-    "express": "^4.15.3",
-    "marked": "^0.3.6",
-    "typescript": "^2.3.4"
-  },
-  "devDependencies": {
-    "@types/marked": "^0.0.28",
-    "@types/node": "^8.0.14",
-    "nodemon": "^1.11.0",
-    "ts-node": "^3.0.6"
-  }
+    "name": "heyjimbo",
+    "version": "2.0.0",
+    "description": "heyjimbo website",
+    "main": "build/server.js",
+    "repository": "heyjimbo.com",
+    "author": "Jimmy",
+    "license": "MIT",
+    "dependencies": {
+	"ejs": "^2.5.6",
+	"express": "^4.15.3",
+	"marked": "^0.3.6",
+	"typescript": "^2.3.4"
+    },
+    "devDependencies": {
+	"@types/marked": "^0.0.28",
+	"@types/node": "^8.0.14",
+	"nodemon": "^1.11.0",
+	"ts-node": "^3.0.6"
+    },
+    "scripts": {
+	"run-dev": ""
+    }
 }

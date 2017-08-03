@@ -1,0 +1,6 @@
+{
+    "watch": ["src", "views"],
+    "execMap": {
+	"ts": "node_modules\\.bin\\ts-node"
+    }
+}

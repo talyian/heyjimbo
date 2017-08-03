@@ -1,0 +1,76 @@
+<!doctype html>
+<style>
+ html,body { height:100%;margin:0px; padding:0px; }
+ #cv { display:block; margin:auto; background: black;}
+</style>
+<canvas id="cv"></canvas>
+<script id=fshader type='text/glsl-fragment'>
+ precision highp float;
+ uniform float g;
+ varying vec3 vpos;
+ 
+ void main() {
+     float v = vpos.y / 2.0 + 0.5;
+     gl_FragColor = vec4(mix(vec3(0.8,0.7,1), vec3(0.5,0.5,1), v), 1);
+     gl_FragColor = vec4(mix(vec3(1.0,1.0,0.9), vec3(0.5,0.5,1), v), 1);     
+ }
+</script>
+<script id=vshader type='text/glsl-vertex'>
+ uniform float t;
+ attribute vec3 pos;
+ varying highp vec3 vpos;
+ void main() {
+     vpos = pos;
+     gl_Position = vec4(pos, 1);
+ }
+</script>
+<script>
+ function Shader(src, type, gl) {
+     this.id = gl.createShader(type);
+     this.src = src;
+     this.type = type;
+     gl.shaderSource(this.id, src);
+     gl.compileShader(this.id);
+     if (!gl.getShaderParameter(this.id, gl.COMPILE_STATUS)) {
+	 console.error("GLSL ERROR: ", gl.getShaderInfoLog(this.id));
+     }
+ }
+ function Program(fs_src, vs_src, gl) {
+     this.id = gl.createProgram();
+     this.gl = gl;
+     this.attachShader(new Shader(fs_src, gl.FRAGMENT_SHADER, gl));
+     this.attachShader(new Shader(vs_src, gl.VERTEX_SHADER, gl));
+     gl.linkProgram(this.id);
+     if (!gl.getProgramParameter(this.id, gl.LINK_STATUS))
+	 throw gl.getProgramInfoLog(this.id);
+     ['pos', 'uv'].map(attr => {
+	 idx = gl.getAttribLocation(this.id, attr);
+	 if (idx >= 0) gl.enableVertexAttribArray(idx);
+     });
+ }
+ Program.prototype.attachShader = function(p) { this.gl.attachShader(this.id, p.id) };
+ Program.prototype.enable = function() { this.gl.useProgram(this.id) };
+ Program.prototype.setPointer = function(name) {
+     var args = [].slice.apply(arguments);
+     args[0] = gl.getAttribLocation(this.id, name);
+     gl.vertexAttribPointer.apply(gl, args);
+ }
+</script>
+<script>
+ cv.width = document.body.clientWidth;
+ cv.height = document.body.clientHeight;
+ var gl = cv.getContext('webgl');
+ var program = new Program(fshader.innerHTML, vshader.innerHTML, gl);
+
+ var id = gl.createBuffer();
+ var verts = [
+       -1,-1,0, 1,1,0, -1,1,0,
+       -1,-1,0, 1,1,0,  1,-1,0
+ ];
+ gl.viewport(0, 0, cv.width, cv.height);
+ gl.bindBuffer(gl.ARRAY_BUFFER, id);
+ gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
+ gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+ program.enable();
+ gl.drawArrays(gl.TRIANGLES, 0, 6);
+</script>

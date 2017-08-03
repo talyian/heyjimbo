@@ -106,4 +106,6 @@ Changing our distance function further cuts the time down
 
     real 1.724s
 
-At this point, we've improved the time from the inital F# version over ten-fold, by inlining the expensive parts of the `distance` function and using the same techniques that were applied to the golang implementation.
+#### Conclusion
+
+At this point, we've improved the time from the inital F# version over ten-fold from 18s to 1.7s, by inlining the expensive parts of the `distance` function and using the same techniques that were applied to the golang implementation. To further approach the speed of C, work could be done by writing vectorized code using the new System.Numerics.Vector libraries.
