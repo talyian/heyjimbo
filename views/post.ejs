@@ -1,6 +1,6 @@
 <!doctype html>
 <style>
-  body,html { margin:0px; padding:0px; font:16px "Verdana"; line-height:1.4; background:#333; color:#eee; }
+  body,html { margin:0px; padding:0px; font:1em "Verdana"; line-height:1.4; background:#222; color:#eee; }
   h1,h2,h3,h4,h5,h6 { font-weight: normal; color:#fe9;}
   #post-content {max-width:750px; margin:auto; }
   #header>h1 { padding-left:50%; margin:0px; font:32px Verdana; letter-spacing:10px; }
@@ -12,8 +12,8 @@
   #post-content img { max-width:100%; }
   #sidebar { width:300px; background:black; margin-top:20px; float:right; }
   #sidebar a { display:block; padding: 3px 10px; white-space:nowrap; text-decoration:none; }
-  
   #sidebar h3 { padding:10px; margin:0px; }
+  @media (max-device-width:330px) { body { font-size:2em; }
 </style>
 <div id=header>
   <h1><a href=/><span>h</span><span>e</span><span>y</span><span>j</span>imbo</a></h1>
@@ -22,7 +22,7 @@
     <h3>See Also</h3>
     <a href="/post"><div>All Posts</div></a>
     <% for (var i=0; i<posts.length; i++) { var f = posts[i]; %>
-    <a href="/post/<%=f.filename%>"><div><%=f.title%></div></a>    
+    <a href="/post/<%=f.filename%>"><div><%=f.title%></div></a>
     <% } %>
 </div>
 <div id=post-content>
