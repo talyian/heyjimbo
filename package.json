@@ -2,7 +2,7 @@
    "name": "heyjimbo",
    "version": "2.0.0",
    "description": "heyjimbo website",
-   "main": "build/server.js",
+   "main": "src/server.ts",
    "repository": "heyjimbo.com",
    "author": "Jimmy",
    "license": "MIT",
@@ -20,6 +20,6 @@
       "ts-node": "^3.0.6"
    },
    "scripts": {
-      "run-dev": ""
+      "start": "nodemon -F"
    }
 }
