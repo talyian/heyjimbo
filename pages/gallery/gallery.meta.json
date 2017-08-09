@@ -1,0 +1,15 @@
+[
+    {
+	"filename": "tree.html",
+	"image": "tree.png",
+	"title": "WebGL Trees",
+	"description": "Basic WebGL procedural 3D tree generation. Recursively draws slightly randomized quads."
+    },
+    {
+	"filename": "mandelbrot.html",
+	"image": "mandelbrot.png",
+	"title": "WebGL Mandelbrot Set",
+	"description": "WebGL Mandelbrot rendering. The set is calculated in the fragment shader and drawn on a single quad."
+    }
+]
+

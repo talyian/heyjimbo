@@ -20,6 +20,7 @@
 <div id=header>
   <h1><a href=/><span>h</span><span>e</span><span>y</span><span>j</span>imbo</a></h1>
 </div>
+<% if (posts && posts.length) { %>
 <div id="sidebar">
     <h3>See Also</h3>
     <a href="/post"><div>All Posts</div></a>
@@ -30,6 +31,7 @@
     <hr />
     <a href="/about"><div>About</div></a>    
 </div>
+<% } %>
 <div id=post-content>
 <%- content %>
 </div>

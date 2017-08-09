@@ -36,13 +36,14 @@ app.get('/post/:name', ewrap(async function (req, resp) {
 }))
 
 app.get('/gallery', ewrap(async function (req, resp) {
-    var list = await asyncListDir('pages/gallery');
-    resp.json(list);
+    var list = await asyncReadFile("pages/gallery/gallery.meta.json");
+    var data = JSON.parse(list.toString())
+    resp.render('gallerylist', {posts:data})
 }))
 app.get('/gallery/:name', ewrap(async function (req, resp) {
     var name = sanitizeFile(req.params.name)
     var content = await asyncReadFile(`pages/gallery/${name}`);
-    resp.render('post', {content: content.toString()});
+    resp.render('post', {title:'', posts:[], content: content.toString()});
 }))
 
 app.get('/', ewrap(async function(req, resp) {
