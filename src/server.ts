@@ -26,7 +26,7 @@ function ewrap(f) { return function() {
 }}
 
 async function post(name) {
-    var meta = _meta.filter(x => x.filename == name || x.filename == name + ".md")[0];
+    var meta = _meta.filter(x => x.name == name || x.filename == name)[0];
     var content:any = await asyncReadFile(`pages/${meta.filename}`)
     content = content.toString();
     if (/\.md$/.exec(meta.filename)) content = marked(content)
@@ -60,7 +60,9 @@ async function getMeta() {
     var meta = meta_str.split('\n').filter(x => x)
 	.map(s => { try { return JSON.parse(s) } catch (e) { return null }})
 	.filter(x => x);
-    meta.map(m => { m.tags = m.tags || []; });
+    meta.map(m => {
+	m.name = m.name || m.filename.replace(/\.\w+$/, '');
+	m.tags = m.tags || []; });
     meta.sort((a,b) => -(a.created||0) + (b.created||0));
     var _t = {};
     meta.map(m => m.tags.map(t => {if (t.indexOf('series') < 0) {_t[t] = 1 }}));
@@ -84,8 +86,8 @@ async function loadFeed() {
 	var x = results[i];
 	feedinfo.addItem({
 	    title: x.title,
-	    id: 'https://heyjimbo.com/post/' + x.filename,
-	    link: 'https://heyjimbo.com/post/' + x.filename,
+	    id: 'https://heyjimbo.com/post/' + x.name,
+	    link: 'https://heyjimbo.com/post/' + x.name,
 	    description: x.blurb,
 	    content: marked((await asyncReadFile(`pages/${x.filename}`)).toString()),
 	    author: [{name: "Jimmy Tang"}],

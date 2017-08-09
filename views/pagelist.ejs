@@ -25,7 +25,7 @@
 <% for (var i=0; i<content.length; i++) { var f = content[i]; %>
 <div class=postitem>
   <% if (f.image) { %>  <img src='<%=f.image%>' class=prev /> <% } %>     
-  <h4><a href="/post/<%=f.filename%>"><%=f.title%></a></h4>
+  <h4><a href="/post/<%=f.name%>"><%=f.title%></a></h4>
   <% for(var j=0; j<f.tags.length; j++) { %><b class=tag><a href='/tag/<%=f.tags[j]%>'><%=f.tags[j]%></a></b><% } %>
   <% if (f.blurb) { %>  <div class=blurb><%=f.blurb%></div> <% } %>
 </div>
