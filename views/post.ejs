@@ -1,4 +1,5 @@
 <!doctype html>
+<head><title>Heyjimbo - <%=title%></title>
 <style>
   body,html { margin:0px; padding:0px; font:1em "Verdana"; line-height:1.4; background:#222; color:#eee; }
   h1,h2,h3,h4,h5,h6 { font-weight: normal; color:#fe9;}
@@ -14,7 +15,8 @@
   #sidebar a { display:block; padding: 3px 10px; white-space:nowrap; text-decoration:none; }
   #sidebar h3 { padding:10px; margin:0px; }
   @media (max-device-width:330px) { body { font-size:2em; }
-</style>
+</style></head>
+<body>
 <div id=header>
   <h1><a href=/><span>h</span><span>e</span><span>y</span><span>j</span>imbo</a></h1>
 </div>
@@ -30,3 +32,6 @@
 </div>
 <div id=post-content>
 <%- content %>
+</div>
+<script>window.ga={l:+new Date(),q:[['create','UA-74761191-1','auto'],['send','pageview']]}</script>
+<script src='https://www.google-analytics.com/analytics.js'></script>

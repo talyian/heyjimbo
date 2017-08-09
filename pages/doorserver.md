@@ -89,6 +89,8 @@ void client_loop (int &main_state) {
 
 ![Photo of ESP8266 and Breadboard](/images/doorserver/photo.jpg)
 
+My door intercom unit is a Lee Dan IR-204E station. I found some schematics on www.leedan.com website, but mainly I just poked around with a multimeter to figure out which wire led where. There are 4 wires, two of which power the buzzer and two of which control the door. 
+
 ### Next Steps
 
 #### Power

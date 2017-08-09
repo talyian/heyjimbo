@@ -29,6 +29,7 @@ app.get('/post/:name', ewrap(async function (req, resp) {
     var name = sanitizeFile(req.params.name)
     var content = await asyncReadFile(`pages/${name}.md`)
     resp.render('post', {
+	title: _meta.filter(x => x.filename == name)[0].title,
 	content: marked(content.toString()),
 	posts: _meta.slice(0, 5),
     });
@@ -48,6 +49,7 @@ app.get('/', ewrap(async function(req, resp) {
     var name = _meta[0].filename;
     var content = await asyncReadFile(`pages/${name}.md`)
     resp.render('post', {
+	title: _meta.filter(x => x.filename == name)[0].title,	
 	content: marked(content.toString()),
 	posts: _meta.slice(0, 5),
     });

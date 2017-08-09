@@ -1,4 +1,5 @@
 <!doctype html>
+<head><title>Heyjimbo - All Posts</title>
 <style>
   body,html { margin:0px; padding:0px; font:1em "Verdana"; line-height:1.4; background:#333; color:#eee; }
   h1,h2,h3,h4,h5,h6 { font-weight: normal; color:#fe9;}
@@ -11,7 +12,8 @@
   h4, .tag { display:inline-block; margin:0px 10px;  }
   .blurb { background:#111; margin:2px 15px; padding:3px }
   @media (max-device-width:330px) { body { font-size:2em; }
-</style>
+</style></head>
+<body>
 <div id=header>
   <h1><a href=/><span>h</span><span>e</span><span>y</span><span>j</span>imbo</a></h1>
 </div>
@@ -24,3 +26,5 @@
   <% if (f.blurb) { %>  <div class=blurb><%=f.blurb%></div> <% } %>
 </div>
 <% } %>
+<script>window.ga={l:+new Date(),q:[['create','UA-74761191-1','auto'],['send','pageview']]}</script>
+<script src='https://www.google-analytics.com/analytics.js'></script>
