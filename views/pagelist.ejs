@@ -8,9 +8,11 @@
   #header>h1>a>span:nth-child(4) { color:#f63; }
   #header a { color:inherit; text-decoration:none; }
   a { color: #f63; text-decoration:none; }
-  .tag { font-size:80%; color:#fc6; }
+  .tag a { font-size:80%; color:#fc6; }
   h4, .tag { display:inline-block; margin:0px 10px;  }
   .blurb { background:#111; margin:2px 15px; padding:3px }
+  .prev { max-width:300px; float:left; margin-right:5px; }
+  .postitem { clear:both; }
   @media (max-device-width:330px) { body { font-size:2em; }
 </style></head>
 <body>
@@ -20,9 +22,10 @@
 <div id=post-content>
 <h2>All Posts</h2>
 <% for (var i=0; i<content.length; i++) { var f = content[i]; %>
-<div>
+<div class=postitem>
+  <% if (f.image) { %>  <img src='<%=f.image%>' class=prev /> <% } %>     
   <h4><a href="/post/<%=f.filename%>"><%=f.title%></a></h4>
-  <% for(var j=0; j<f.tags.length; j++) { %><b class=tag><%=f.tags[j]%></b><% } %>
+  <% for(var j=0; j<f.tags.length; j++) { %><b class=tag><a href='/tag/<%=f.tags[j]%>'><%=f.tags[j]%></a></b><% } %>
   <% if (f.blurb) { %>  <div class=blurb><%=f.blurb%></div> <% } %>
 </div>
 <% } %>

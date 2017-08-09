@@ -25,58 +25,49 @@ function ewrap(f) { return function() {
     catch(e) { arguments[1].end(e.toString()); }
 }}
 
+async function post(name) {
+    var meta = _meta.filter(x => x.filename == name || x.filename == name + ".md")[0];
+    var content:any = await asyncReadFile(`pages/${meta.filename}`)
+    content = content.toString();
+    if (/\.md$/.exec(meta.filename)) content = marked(content)
+    return {info: meta, title: meta.title, content: content, posts: _meta.slice(0, 5), tags:_tags}
+}
+
 app.get('/post/:name', ewrap(async function (req, resp) {
     var name = sanitizeFile(req.params.name)
-    var content = await asyncReadFile(`pages/${name}.md`)
-    resp.render('post', {
-	title: _meta.filter(x => x.filename == name)[0].title,
-	content: marked(content.toString()),
-	posts: _meta.slice(0, 5),
-    });
+    resp.render('post', (await post(name)));
+}))
+app.get('/post/gallery/:name', ewrap(async function (req, resp) {
+    var data = await post('gallery/' + sanitizeFile(req.params.name))
+    data.posts = null;
+    resp.render('post', data);
 }))
 
-app.get('/gallery', ewrap(async function (req, resp) {
-    var list = await asyncReadFile("pages/gallery/gallery.meta.json");
-    var data = JSON.parse(list.toString())
-    resp.render('gallerylist', {posts:data})
+app.get('/tag/:tag', ewrap(async function (req, resp) {
+    var list = _meta.filter(x => x.tags.indexOf(req.params.tag) >= 0);
+    resp.render('pagelist', {content:list});
 }))
-app.get('/gallery/:name', ewrap(async function (req, resp) {
-    var name = sanitizeFile(req.params.name)
-    var content = await asyncReadFile(`pages/gallery/${name}`);
-    resp.render('post', {title:'', posts:[], content: content.toString()});
-}))
+app.get('/post', ewrap((q, r) => r.render('pagelist', {content: _meta})));
 
 app.get('/', ewrap(async function(req, resp) {
-    var name = _meta[0].filename;
-    var content = await asyncReadFile(`pages/${name}.md`)
-    resp.render('post', {
-	title: _meta.filter(x => x.filename == name)[0].title,	
-	content: marked(content.toString()),
-	posts: _meta.slice(0, 5),
-    });
+    resp.render('post', (await post(_meta[0].filename)));
 }));
+app.get('/about', ewrap(async function (req, resp) { resp.render('about'); }));
 
-app.get('/post', ewrap(listPosts));
 var _meta: any = null;
+var _tags: any = null;
 async function getMeta() {
     var meta_str = (await asyncReadFile('pages/pages.meta.json')).toString();
     var meta = meta_str.split('\n').filter(x => x)
 	.map(s => { try { return JSON.parse(s) } catch (e) { return null }})
 	.filter(x => x);
-    meta.map(m => {
-	m.tags = m.tags || [];
-	m.filename = m.filename.replace('.md', '');
-    });
+    meta.map(m => { m.tags = m.tags || []; });
     meta.sort((a,b) => -(a.created||0) + (b.created||0));
+    var _t = {};
+    meta.map(m => m.tags.map(t => {if (t.indexOf('series') < 0) {_t[t] = 1 }}));
+    _tags = Object.keys(_t);
     return _meta = meta;
 }
-async function listPosts(req, resp) {
-    resp.render('pagelist', {content: await getMeta()});
-}
-
-app.get('/about', ewrap(async function (req, resp) {
-    resp.render('about');
-}));
 
 let feedinfo = new Feed({
     title: 'Heyjimbo',
@@ -97,7 +88,7 @@ async function loadFeed() {
 	    id: 'https://heyjimbo.com/post/' + x.filename,
 	    link: 'https://heyjimbo.com/post/' + x.filename,
 	    description: x.blurb,
-	    content: marked((await asyncReadFile(`pages/${x.filename}.md`)).toString()),
+	    content: marked((await asyncReadFile(`pages/${x.filename}`)).toString()),
 	    author: [{name: "Jimmy Tang"}],
 	    date: new Date(x.created),
 	    image: x.image,
@@ -108,5 +99,4 @@ loadFeed();
 async function feed (req, resp) { resp.end(feedinfo.atom1()); }
 app.get('/atom.xml', ewrap(feed));
 app.get('/feed', ewrap(feed));
-
 app.listen(8081, function () {console.log (this.address())})
