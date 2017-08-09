@@ -42,7 +42,6 @@ app.get('/post/gallery/:name', ewrap(async function (req, resp) {
     data.posts = null;
     resp.render('post', data);
 }))
-
 app.get('/tag/:tag', ewrap(async function (req, resp) {
     var list = _meta.filter(x => x.tags.indexOf(req.params.tag) >= 0);
     resp.render('pagelist', {content:list});

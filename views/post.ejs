@@ -1,6 +1,7 @@
 <!doctype html>
 <head><title>Heyjimbo - <%=title%></title>
-<style>
+<% if (info.image) { %><meta property="og:image" content="<%=info.image%>">
+<% } %><style>
   body,html { margin:0px; padding:0px; font:1em "Verdana"; line-height:1.4; background:#222; color:#eee; }
   h1,h2,h3,h4,h5,h6 { font-weight: normal; color:#fe9;}
   #post-content {max-width:750px; margin:auto; }
@@ -25,6 +26,7 @@
     <h3>See Also</h3>
     <a href="/post"><div>All Posts</div></a>
     <hr />
+    <h4>Recent Posts</h4>
     <% for (var i=0; i<posts.length; i++) { var f = posts[i]; %>
     <a class=a1 href="/post/<%=f.filename%>"><div><%=f.title%></div></a>
     <% } %>
