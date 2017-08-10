@@ -152,7 +152,7 @@ function TreeDemo(main) {
     var p = new Program(fshader.innerHTML, vshader.innerHTML, gl);
     var w = gl.canvas.width = document.body.clientWidth - 50;
     var h = gl.canvas.height = document.body.clientHeight - gl.canvas.offsetTop - 10;
-    gl.viewport((w-h)/2, 0, h+(w-h)/2, h);
+    gl.viewport((w-h)/2, 0, h, h);
     trees = [];
     for(var i=0; i<20; i++) {
 	s = 0.4 + 0.6 * Math.pow(Math.random(), 4);

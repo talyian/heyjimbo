@@ -1,4 +1,4 @@
-<style> body,html, #post-content { padding:0px; height:100%; max-width:100%; } </style>
+<style> #main { position:absolute; top:0px; left:0px; } body,html { padding:0px; height:100%; max-width:100%; } </style>
 <canvas id=main> </canvas>
 <script id=fshader type='text/glsl-fragment'>
  precision highp float;
@@ -25,4 +25,6 @@
  gl_Position = vec4(p.xyz - vec3(0, 0.99, 0), 1);
  }
 </script>
+<h3>WebGL Trees</h3>
+This was a kata to write a simple recursive branching tree generator in plain old Javascript and WebGL. As you can see in the source, I wound up having to write my own functions to draw meshes and do matrix math. While a fun experiment, this really shows how something like Three.js should be the default starting point for WebGL projects since it includes most of the low-level boilerplate math and GL-management code while remaining agnostic to your higher-level code architecture.
 <script src="/gallery/tree.js"> </script>
