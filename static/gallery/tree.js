@@ -94,6 +94,7 @@ V3.prototype.mul = function(n) { return new V3(this.x*n, this.y*n, this.z*n) }
 
 var MOV=Matrix4.translate, SIZE=Matrix4.scale, ROT=Matrix4.rotateAxis
 function _box(m, h, w, v, I, n, q) {
+    if (n == 1) { h = w = 0.3; }
     var o = m.transform([0,0,0,1]);
     var dy = m.transform([0, h, 0, 0]);
     var dx = m.transform([w/2, 0, 0, 0]);
