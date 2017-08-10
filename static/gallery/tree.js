@@ -43,7 +43,7 @@ function Mesh(vertices, indices, gl) {
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
     this.setPointers = function() {
 	gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 20, 0);
-	gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 20, 12);	 
+	gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 20, 12);
     };
 }
 
@@ -52,7 +52,7 @@ Program.prototype.drawMesh = function(m) {
     this.enable();
     gl.uniform1f(gl.getUniformLocation(this.id, 't'), this.t);
     gl.bindBuffer(gl.ARRAY_BUFFER, m.vertbuffer);
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, m.indexbuffer);	
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, m.indexbuffer);
     m.setPointers();
     gl.drawElements(gl.TRIANGLES, m.indexcount, gl.UNSIGNED_SHORT, 0);
 }
@@ -63,7 +63,7 @@ Matrix4.prototype.compose = function(o) {
     var data = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
     for(var i=0; i<4; i++)
 	for(var j=0; j<4; j++) {
-	    for(var n = 0; n < 4; n++) { 
+	    for(var n = 0; n < 4; n++) {
 		data[i * 4 + j] += this.data[i * 4 + n] * o.data[n * 4 + j];
 	    }
 	}
@@ -93,39 +93,52 @@ V3.prototype.sub = function(o) { return new V3(this.x-o.x, this.y-o.y, this.z-o.
 V3.prototype.mul = function(n) { return new V3(this.x*n, this.y*n, this.z*n) }
 
 var MOV=Matrix4.translate, SIZE=Matrix4.scale, ROT=Matrix4.rotateAxis
-function _quad(m, h, w, v, i, n, q) {
+function _box(m, h, w, v, I, n, q) {
     var o = m.transform([0,0,0,1]);
     var dy = m.transform([0, h, 0, 0]);
-    var dx = m.transform([w/2, 0,0, 0]);
+    var dx = m.transform([w/2, 0, 0, 0]);
+    var dz = m.transform([0, 0, w/2, 0]);
     var V = v.length/5, T = 0.8;
-    v.push(
-	o[0]-dx[0], o[1]-dx[1], o[2]-dx[2],   n, q,
-	o[0]-T*dx[0]+dy[0],o[1]-T*dx[1]+dy[1],o[2]-T*dx[2]+dy[2], n, q,
-	o[0]+dx[0],o[1]+dx[1],o[2]+dx[2], n, q,
-	o[0]+T*dx[0]+dy[0],o[1]+T*dx[1]+dy[1],o[2]+T*dx[2]+dy[2], n, q,
+    for(var i = 0; i<2; i++)
+        for(var j = 0; j<2; j++)
+            for(var k = 0; k<2; k++) {
+                _i = (1 - 0.2 * j) * i;
+                _k = (1 - 0.2 * j) * k;
+                v.push(
+                    o[0] + _i * dx[0] + j * dy[0] + _k * dz[0],
+                    o[1] + _i * dx[1] + j * dy[1] + _k * dz[1],
+                    o[2] + _i * dx[2] + j * dy[2] + _k * dz[2], n, q);
+            }
+    I.push(
+        V, V+1, V+2, V+2, V+1, V+3,
+        V, V+1, V+4, V+4, V+1, V+5,
+        V, V+2, V+4, V+4, V+2, V+6,
+        V+7, V+6, V+5, V+5, V+6, V+4,
+        V+7, V+6, V+3, V+3, V+6, V+2,
+        V+7, V+5, V+3, V+3, V+5, V+1,
     );
-    i.push(V, V+1, V+2, V+2, V+1, V+3);
 }
 function Tree(n, m, gl) {
     var v = [], i = [], q = Math.random();
-    function _tree(n, m) { 
+    function _tree(n, m) {
 	if (n === 0) return;
-	
-	// draw the current level branch geometry
-	var w = 0.01 * n + 0.02, h = 0.2 + Math.random() * 0.2;
-	_quad(m, h, w, v, i, n, q);
 
-	// recurse at a smaller size and a random angle
-	var r=0.8, th=0.5;
-	var axisx = Math.random()
-	var axisy = Math.random()
-	var axisz = 1 - axisx * axisx - axisy * axisy;
-	_tree(n-1,ROT(th, axisx, axisy, axisz)
-	      .compose(SIZE(r,r,r))
+	// draw the current level branch geometry
+        // branch width decreases, branch height is slightly randomized
+	var w = 0.01 * n + 0.02, h = 0.2 + Math.random() * 0.2;
+	_box(m, h, w, v, i, n, q);
+
+	// recurse two smaller branches split at a random direction
+	var size=0.8, th=0.65;
+	var _x = Math.random(), _y = Math.random(), _z = Math.random();
+        var _r = 1 / Math.sqrt(_x * _x + _y * _y + _z * _z);
+        _x *= _r; _y *= _r; _z *= _r;
+	_tree(n-1,ROT(th, _x, _y, _z)
+	      .compose(SIZE(size,size,size))
 	      .compose(MOV(0, h, 0))
 	      .compose(m), v, i);
-	_tree(n-1,ROT(-th, axisx, axisy, axisz)
-	      .compose(SIZE(r,r,r))
+	_tree(n-1,ROT(-th, _x, _y, _z)
+	      .compose(SIZE(size,size,size))
 	      .compose(MOV(0, h, 0))
 	      .compose(m), v, i);
     }
@@ -133,19 +146,18 @@ function Tree(n, m, gl) {
     return new Mesh(v, i, gl)
 }
 
-function TreeDemo(main) { 
+function TreeDemo(main) {
     var gl = main.getContext('webgl');
     var n = new Tree(null, null, gl)
     var p = new Program(fshader.innerHTML, vshader.innerHTML, gl);
-    var w = gl.canvas.width = gl.canvas.clientWidth;
-    var h = gl.canvas.height = gl.canvas.clientHeight;
-    gl.viewport(0, 0, w, w);
+    var w = gl.canvas.width = document.body.clientWidth - 50;
+    var h = gl.canvas.height = document.body.clientHeight - gl.canvas.offsetTop - 10;
+    gl.viewport((w-h)/2, 0, h+(w-h)/2, h);
     trees = [];
     for(var i=0; i<20; i++) {
-	s = 0.2 + Math.random();
-	trees.push(new Tree(10, SIZE(s,s,s).compose(
-	    MOV(0.5 * Math.sin(i), 0, 0.5 * Math.cos(i))
-	), gl),);
+	s = 0.4 + 0.6 * Math.pow(Math.random(), 4);
+        pos = MOV((i * 0.05) * Math.sin(i), 0, (i * 0.05) * Math.cos(i))
+	trees.push(new Tree(10, SIZE(s,s,s).compose(pos), gl));
     }
     (function (t) {
 	p.t = t;
