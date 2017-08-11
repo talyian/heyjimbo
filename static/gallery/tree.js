@@ -116,7 +116,7 @@ function _box(m, h, w, v, I, n, q) {
         V, V+2, V+4, V+4, V+2, V+6,
         V+7, V+6, V+5, V+5, V+6, V+4,
         V+7, V+6, V+3, V+3, V+6, V+2,
-        V+7, V+5, V+3, V+3, V+5, V+1,
+        V+7, V+5, V+3, V+3, V+5, V+1
     );
 }
 function Tree(n, m, gl) {
