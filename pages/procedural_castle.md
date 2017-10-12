@@ -26,15 +26,16 @@ basic rules for producing a tower are:
 
 In code, this looks like:
 
-    let rec create () =
-        let stories = rand.Next(4, 8)
-        let segments = generateSegments (Options.sides) stories
-        let tower = Capped(segments, Options.topstyle ())
-        let tower = match rand.Next(4) with
-            | 0 -> Buttress(tower, [Capped(generateSegments 4 3, SpireStyle.ConeNoFlag)])
-            | 1 -> Foundation(tower)
-            | _ -> tower
-
+```
+let rec create () =
+	let stories = rand.Next(4, 8)
+	let segments = generateSegments (Options.sides) stories
+	let tower = Capped(segments, Options.topstyle ())
+	let tower = match rand.Next(4) with
+		| 0 -> Buttress(tower, [Capped(generateSegments 4 3, SpireStyle.ConeNoFlag)])
+		| 1 -> Foundation(tower)
+		| _ -> tower
+```
 #### The Backend
 
 Ultimately all the high-level types like `Tower` get converted into a set of primitive types -- cylinders, blocks, vertex-lists,
@@ -59,12 +60,15 @@ helpful to translate it piece-by-piece into English.
 | and find the one with the smallest counterclockwise angle | `List.reduce (fun p q -> if Matrix2(p.Xz-pt.Xz,q.Xz-pt.Xz).Determinant < 0.0f then q else p)` |
 | Keep taking the next point until you find the first point again | `List.unfold (fun p -> let n = nextpt p in if n = firstpt then None else Some(p, n)) firstpt` |
 
-    module ConvexHull =
-        let FromPoints points =
-            let firstpt = List.minBy (fun (v:Vector3) -> v.X) points
-            let nextpt pt =
-                List.except [pt] points |> List.reduce (fun p q -> if Matrix2(p.Xz-pt.Xz,q.Xz-pt.Xz).Determinant < 0.0f then q else p)
-            List.unfold (fun p -> let n = nextpt p in if n = firstpt then None else Some(p, n)) firstpt
+```
+module ConvexHull =
+	let FromPoints points =
+		let firstpt = List.minBy (fun (v:Vector3) -> v.X) points
+		let nextpt pt =
+		    let firstpoint p q = if Matrix2(p.Xz-pt.Xz,q.Xz-pt.Xz).Determinant < 0.0f then q else p
+				List.except [pt] points |> List.reduce firstpoint
+		List.unfold (fun p -> let n = nextpt p in if n = firstpt then None else Some(p, n)) firstpt
+```
 
 #### Backend Logic Notes: The placement algorithm
 
@@ -79,16 +83,19 @@ and collision check is O(V) where V is the volume of the inserted object)
 
 A tree is one of the most common recursively generated objects out there. There is a fundamental fractal nature about trees that makes it very suitable for generation algorithms.
 
-    type Tree =
-        | Leaf of Vector3
-        | Branch of Vector3 * float32 * Tree list
-
+```
+type Tree =
+	| Leaf of Vector3
+	| Branch of Vector3 * float32 * Tree list
+```
 The body of the `generate` function is three lines: 1 to create a `Leaf` node, 1 to create a random point `pos`, and 1 and create a `Branch` ending on `pos`, recursively containing between 2 and 5 sub-branches.
 
-    let rec generate = function
-        | 0 -> Leaf(Vector3.One)
-        | n -> let pos = 0.6f * Vector3.Normalize (r.NextV3(-0.5f, 0.5f, 0.2f, 0.6f, -0.5f, 0.5f))
-               Branch(pos, 0.03f * float32 n, [for i in 0..r.Next(2, 6) -> generate (n-1)])
+```
+let rec generate = function
+	| 0 -> Leaf(Vector3.One)
+	| n -> let pos = 0.6f * Vector3.Normalize (r.NextV3(-0.5f, 0.5f, 0.2f, 0.6f, -0.5f, 0.5f))
+		   Branch(pos, 0.03f * float32 n, [for i in 0..r.Next(2, 6) -> generate (n-1)])
+```
 
 The body of the `_toPolygon` function is below. Leaves are converted to dark green blocks.
 The Branch part is slightly more involved. We find the rotation+scale matrix `c` based
@@ -128,3 +135,7 @@ came up multiple times during the course of this project. A couple examples:
 http://github.com/talyian/procedural_castle
 
 All in all, This was quite a fun project. Feel free to play with and extend the code - Even if you aren't familiar with F#, the overall structure of the code should make sense. If you're on OSX or Linux, the included Makefile should work assuming you have `mono` and `fsharp` installed. If you're on Windows, you're on your own, but try to open the included fsproj in Visual Studio.
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>

@@ -27,7 +27,7 @@ Dependencies:
 
 Nothing particularly outrageous, just a standard nodejs+express server that accepts a /door query and holds it open while waiting on another client to respond on the /open endpoint with the appropriate secret token. The token in question is simply a global variable, `secret`, but without too much further work this could be adapted to support multiple doors and email addresses. 
 
-```typescript
+```
 // endpoint for Button to notify us
 app.get('/button', function(req, resp, next) {
     var mailer = Sendmail();
@@ -47,7 +47,7 @@ app.get('/button', function(req, resp, next) {
 
 The client side code is 106 lines of Arduino-flavored C. (https://gist.github.com/talyian/58b93d15451dcb418808213faa7e5a35) Okay, I'll be the first to admit, I'm not an Arduino expert. I kind of bumbled my way through implementing a state-machine-via-giant-switch-statement in the main loop for this application, although it smells like something you'd really want a coroutine library for. 
 
-```C
+```
 void loop() {
   static int state = STARTING, counter = 0, status = 0;
   switch(state) {
@@ -105,3 +105,8 @@ I need to move this project to a prototype board to cut down on the bulk.
 
 My phone doesn't do a great job of getting emails reliably. I may want to use twilio or something to send 
 texts instead. Also, instead of having to click the link in the email, perhaps just replying "open" or "Y"/"N" would be easier to do from my phone's lock screen.
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
