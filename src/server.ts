@@ -27,7 +27,9 @@ function ewrap(f) { return function() {
 
 async function post(name) {
     var meta = _meta.filter(x => x.name == name || x.filename == name)[0];
+    if (!meta) return null;
     var content:any = await asyncReadFile(`pages/${meta.filename}`)
+    if (!content) return null;
     content = content.toString();
     if (/\.md$/.exec(meta.filename)) content = marked(content)
     return {info: meta, title: meta.title, content: content, posts: _meta.slice(0, 5), tags:_tags}
@@ -35,10 +37,13 @@ async function post(name) {
 
 app.get('/post/:name', ewrap(async function (req, resp) {
     var name = sanitizeFile(req.params.name)
+    var data = await post(name);
+    if (!data) { return resp.sendStatus(404); }
     resp.render('post', (await post(name)));
 }))
 app.get('/post/gallery/:name', ewrap(async function (req, resp) {
     var data = await post('gallery/' + sanitizeFile(req.params.name))
+    if (!data) { return resp.sendStatus(404); }
     data.posts = null;
     resp.render('post', data);
 }))

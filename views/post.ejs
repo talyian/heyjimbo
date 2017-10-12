@@ -3,28 +3,41 @@
 <link rel="icon" href="/images/favicon.png" />
 <% if (info.image) { %><meta property="og:image" content="https://www.heyjimbo.com<%=info.image%>">
 <% } %><style>
-  body,html { margin:0px; padding:0px;
-  font:14pt Verdana,Arial;
-  line-height:1.6;
-  background:#222; color:#eee; }
-  h1,h2,h3,h4,h5,h6 { font-weight: normal; color:#fe9;}
+  body,html { 
+  font-size:14pt;
+  font-family: Helvetica,Tahoma,Arial,sans;
+  font-weight: 100;
+  line-height:1.6; background:#222; color:#eee; margin:0px; padding:0px; }
+  h1,h2,h3,h4,h5,h6 { color:#ffb; font-weight:400; }
   #post-content {max-width:750px; margin:auto; }
-  #header>h1 { padding-left:50%; margin:0px; font:32px Verdana; letter-spacing:10px; }
-  #header>h1>a>span:nth-child(4) { color:#f63; }
-  #header a { color:inherit; }
+  #header,#header>h1 { font:12px Helvetica; letter-spacing:0.3em; text-align:center; }
+  #header>h1>a>#j { color:#f63; }
+  #header>h1>a { color:inherit; }
+  #header>h1>a:hover { color:#f63; }  
   a { color: #f63; text-decoration:none; }
-  code { color: #abf; }
+  code { color: #bdf; }
   a:hover {color:white;}
   pre { background:black; overflow-x:auto; border-left:1px solid #f63; padding-left:10px;  }
   #post-content img { max-width:100%; }
-  #sidebar { width:300px; background:black; margin-top:20px; float:right; }
+  #sidebar { width:600px; background:black; margin:auto; padding:15px; }
   #sidebar a:a1 { display:block; padding: 3px 10px; white-space:nowrap; text-decoration:none; }
   #sidebar h3 { padding:10px; margin:0px; }
-  @media (max-device-width:330px) { body { font-size:2em; }
+  #cdate { margin-bottom:-30px; }
+  @media (max-device-width:330px) { body { font-size:2em; } }
 </style></head>
 <body>
   <div id=header>
-  <h1><a href=/><span>h</span><span>e</span><span>y</span><span>j</span>imbo</a></h1>
+    <h1> <a href=/post>[hey<span id=j>j</span>imbo]</a>
+      <a href=/>&#x2302;</a>      
+    <a href=/post>&#x2261;</a>
+    <a href=/post/about>?</a>
+    <a href=/atom.xml><sub style='font-size:1em'>&#x1d110;</a>
+</h1>
+</div>
+
+<div id=post-content>
+  <div id=cdate><%= new Date(info.created).toDateString() %></div>
+  <%- content %>
 </div>
 <% if (posts && posts.length) { %>
 <div id="sidebar">
@@ -43,11 +56,8 @@
       <% } %>
     <% } %>
     <hr />
-    <a href="/about"><div>About</div></a>
+    <a href="/post/about"><div>About</div></a>
 </div>
 <% } %>
-<div id=post-content>
-<%- content %>
-</div>
 <script async src='https://www.google-analytics.com/analytics.js'></script>
 <script async defer src='/ga/pageview.js'></script>

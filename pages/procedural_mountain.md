@@ -8,9 +8,7 @@ So [this month's procedural generation challenge](https://www.reddit.com/r/proce
 
 I won't cover this in too great of detail, but broadly speaking you need to be able to do a couple things: Generate a 2D heightmap, and then convert that heightmap to a 3D view. One simple way I could think of is to write out an image to a file, and [loading it up in Blender or other program as a heightmap](https://en.wikibooks.org/wiki/Blender_3D:_Noob_to_Pro/Making_Landscapes_with_heightmaps). You could also generate a 3D mesh from the heightmap (I took this route).
 
-<table>
-<tr><th colspan=2> Purely random hash function
-<tr><td colspan=2>
+#### Purely Random Hash Function
 Instead of using some variant of `Math.Random()`, which is for generating a single pseudorandom stream of data, I'd rather use some hash function applied to the x and y coordinates of the heightmap pixel I'm sampling. A well-written hash function should produce pseudorandom output when fed non-repeating inputs, and this ensures determinism.
 
 Warning! I came up with this hash function (truncating digits of `sin()`) without much thought. It doesn't pass as a quality hash function by most metrics. It's random *enough* for the purposes of this post, but do your research before blindly copying this code!
@@ -23,11 +21,7 @@ let hash2 a b = hash(a + hash(b))
 let noise x y = hash2 x y
 ```
 
-<tr><td>
-
-![/images/procedural_mountain/step1.jpg](/images/procedural_mountain/step1.jpg)
-<td>
-
+![](/images/procedural_mountain/step1.jpg)
 ![](/images/procedural_mountain/step1.1.jpg)
 
 <tr><th colspan=2>Quantized random function
