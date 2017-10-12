@@ -32,12 +32,12 @@
       <a href=/>&#x2302;</a>      
     <a href=/post>&#x2261;</a>
     <a href=/post/about>?</a>
-    <a href=/atom.xml><sub style='font-size:1em'>&#x1d110;</a>
+    <a href=/atom.xml>&#x2996;</a>
 </h1>
 </div>
 
 <div id=post-content>
-  <div id=cdate><%= new Date(info.created).toDateString() %></div>
+  <div id=cdate><%- info.created ? new Date(info.created).toDateString() : '&nbsp;' %></div>
   <%- content %>
 </div>
 <% if (posts && posts.length) { %>
