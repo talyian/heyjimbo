@@ -3,13 +3,17 @@
 <link rel="icon" href="/images/favicon.png" />
 <% if (info.image) { %><meta property="og:image" content="https://www.heyjimbo.com<%=info.image%>">
 <% } %><style>
-  body,html { margin:0px; padding:0px; font:1em "Verdana"; line-height:1.4; background:#222; color:#eee; }
+  body,html { margin:0px; padding:0px;
+  font:14pt Verdana,Arial;
+  line-height:1.6;
+  background:#222; color:#eee; }
   h1,h2,h3,h4,h5,h6 { font-weight: normal; color:#fe9;}
   #post-content {max-width:750px; margin:auto; }
   #header>h1 { padding-left:50%; margin:0px; font:32px Verdana; letter-spacing:10px; }
   #header>h1>a>span:nth-child(4) { color:#f63; }
   #header a { color:inherit; }
   a { color: #f63; text-decoration:none; }
+  code { color: #abf; }
   a:hover {color:white;}
   pre { background:black; overflow-x:auto; border-left:1px solid #f63; padding-left:10px;  }
   #post-content img { max-width:100%; }
@@ -19,7 +23,7 @@
   @media (max-device-width:330px) { body { font-size:2em; }
 </style></head>
 <body>
-<div id=header>
+  <div id=header>
   <h1><a href=/><span>h</span><span>e</span><span>y</span><span>j</span>imbo</a></h1>
 </div>
 <% if (posts && posts.length) { %>
