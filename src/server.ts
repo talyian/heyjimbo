@@ -2,6 +2,7 @@ import * as Express from 'express';
 import * as fs from 'fs';
 import * as marked from 'marked';
 import * as Feed from 'feed';
+import * as ejs from 'ejs';
 
 function Async(f){
     return async function(...args:any[]) {
@@ -55,9 +56,15 @@ app.get('/post/gallery/:name', ewrap(async function (req, resp) {
 }))
 app.get('/tag/:tag', ewrap(async function (req, resp) {
     var list = _meta.filter(x => x.tags.indexOf(req.params.tag) >= 0);
-    resp.render('pagelist', {content:list});
+    ejs.renderFile('views/pagelist.ejs', {content: list}, {}, (err, content) => {
+	resp.render('post', {title:0, info:{}, posts:[], content: content})
+    });
 }))
-app.get('/post', ewrap((q, r) => r.render('pagelist', {content: _meta})));
+app.get('/post', ewrap((q, r) => {
+    ejs.renderFile('views/pagelist.ejs', {content: _meta}, {}, (err, content) => {
+	r.render('post', {title:0, info:{}, posts:[], content: content})
+    });
+}));
 
 app.get('/', ewrap(async function(req, resp) {
     resp.render('post', (await post(_meta[0].filename)));

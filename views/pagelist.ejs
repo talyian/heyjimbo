@@ -1,26 +1,10 @@
-<!doctype html>
-<head><title>Heyjimbo - All Posts</title>
-<link rel="icon" href="/images/favicon.png" />
 <style>
-  body,html { margin:0px; padding:0px; font:1em "Verdana"; line-height:1.4; background:#333; color:#eee; }
-  h1,h2,h3,h4,h5,h6 { font-weight: normal; color:#fe9;}
-  #post-content {max-width:750px; margin:auto; }
-  #header>h1 { padding-left:50%; margin:0px; font:32px Verdana; letter-spacing:10px; }
-  #header>h1>a>span:nth-child(4) { color:#f63; }
-  #header a { color:inherit; text-decoration:none; }
-  a { color: #f63; text-decoration:none; }
   .tag a { font-size:80%; color:#fc6; }
   h4, .tag { display:inline-block; margin:0px 10px;  }
-  .blurb { background:#111; margin:2px 15px; padding:3px }
-  .prev { max-width:300px; float:left; margin-right:5px; }
+  .blurb { background:#111; margin:2px 15px; padding:3px; color:#eee; }
+  .prev { max-width:300px !important; float:left; margin-right:5px; }
   .postitem { clear:both; }
-  @media (max-device-width:330px) { body { font-size:2em; }
-</style></head>
-<body>
-<div id=header>
-  <h1><a href=/><span>h</span><span>e</span><span>y</span><span>j</span>imbo</a></h1>
-</div>
-<div id=post-content>
+</style>
 <h2>All Posts</h2>
 <% for (var i=0; i<content.length; i++) { var f = content[i]; %>
 <div class=postitem>
@@ -30,5 +14,4 @@
   <% if (f.blurb) { %>  <div class=blurb><%=f.blurb%></div> <% } %>
 </div>
 <% } %>
-<script async src='https://www.google-analytics.com/analytics.js'></script>
-<script async defer src='/ga/pageview.js'></script>
+
