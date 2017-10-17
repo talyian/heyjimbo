@@ -27,11 +27,17 @@ function ewrap(f) { return function() {
 
 async function post(name) {
     var meta = _meta.filter(x => x.name == name || x.filename == name)[0];
-    if (!meta) return null;
-    var content:any = await asyncReadFile(`pages/${meta.filename}`)
+    if (!meta) {
+	meta = {
+	    filename: name,
+	    title: 'unknown',
+	}
+    }
+    var filename = `pages/${meta.filename}`;
+    var content: any = await asyncReadFile(filename);
     if (!content) return null;
     content = content.toString();
-    if (/\.md$/.exec(meta.filename)) content = marked(content)
+    if (/\.md$/.exec(filename)) content = marked(content)
     return {info: meta, title: meta.title, content: content, posts: _meta.slice(0, 5), tags:_tags}
 }
 
