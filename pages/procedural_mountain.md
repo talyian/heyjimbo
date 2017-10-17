@@ -147,6 +147,4 @@ To go from a single mountain to a range of mountains, I just decreased the scale
 ![](/images/procedural_mountain/desert2.jpg)
 ![](/images/procedural_mountain/mountain.jpg)
 
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
+<script src='/hljs/highlight.js'> </script>

@@ -106,7 +106,4 @@ I need to move this project to a prototype board to cut down on the bulk.
 My phone doesn't do a great job of getting emails reliably. I may want to use twilio or something to send 
 texts instead. Also, instead of having to click the link in the email, perhaps just replying "open" or "Y"/"N" would be easier to do from my phone's lock screen.
 
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/androidstudio.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad();</script>
-
+<script src='/hljs/highlight.js'> </script>
