@@ -1,31 +1,37 @@
 <!doctype html>
 <head><title>Heyjimbo - <%=title%></title>
-<link rel="icon" href="/images/favicon.png" />
-<% if (info.image) { %><meta property="og:image" content="https://www.heyjimbo.com<%=info.image%>">
-<% } %><style>
-  body,html { 
-  font-size:14pt;
-  font-family: Helvetica,Tahoma,Arial,sans;
-  font-weight: 100;
-  line-height:1.6; background:#222; color:#eee; margin:0px; padding:0px; }
-  h1,h2,h3,h4,h5,h6 { color:#fd9; font-weight:400; }
-  #post-content {max-width:750px; margin:auto; }
-  #header,#header>h1 { font:12px Helvetica; letter-spacing:0.3em; text-align:center; }
-  #header>h1>a>#j { color:#f63; }
-  #header>h1>a { color:inherit; }
-  #header>h1>a:hover { color:#f63; }  
-  a { color: #f63; text-decoration:none; }
-  code { color: #bdf; }
-  a:hover {color:white;}
-  pre { background:black; overflow-x:auto; border-left:1px solid #f63; padding-left:10px;  }
-  #post-content img { max-width:100%; }
-  #sidebar { width:600px; background:black; margin:auto; padding:15px; }
-  #sidebar a:a1 { display:block; padding: 3px 10px; white-space:nowrap; text-decoration:none; }
-  #sidebar h3 { padding:10px; margin:0px; }
-  #cdate { margin-bottom:-30px; }
-  pre>code { font-size:12pt; }
-  @media (max-device-width:330px) { body { font-size:2em; } }
-</style></head>
+<link rel="icon" href="/images/favicon.png" /><meta name="viewport" content="width=device-width, initial-scale=1">
+<% if (info.image) { %>
+<meta property="og:image" content="https://www.heyjimbo.com<%=info.image%>">
+<% } %>
+<style>
+ body,html {
+ font-size:14pt; font-family: Helvetica,Tahoma,Arial,sans; line-height:1.6; background:#222;
+ color:#eee; margin:0px; padding:px; }
+ h1,h2,h3,h4,h5,h6 { color:#fd9; font-weight:400; }
+ #header,#header>h1 { font:12px Helvetica; letter-spacing:0.3em; text-align:center; }
+ #header>h1>a>#j { color:#f63; }
+ #header>h1>a { color:inherit; white-space:nowrap;}
+ #header>h1>a:hover { color:#f63; }
+ a { color: #f63; text-decoration:none; }
+ code { color: #bdf; }
+ a:hover {color:white;}
+ pre { background:black; overflow-x:auto; border-left:1px solid #f63; padding-left:10px;  }
+ #sidebar { max-width:600px; background:black; margin:auto; padding:15px; }
+ #sidebar a:a1 { display:block; padding: 3px 10px; white-space:nowrap; text-decoration:none; }
+ #sidebar h3 { padding:10px; margin:0px; }
+ #cdate { margin-bottom:-30px; }
+ pre>code { font-size:12pt; }
+ #post-content img { max-width:100%; display:block; margin:auto; }
+ #post-content { padding:10px; }
+ @media (min-device-width: 800px) {
+     #post-content {max-width:750px; margin:auto; }
+ }
+ @media (max-device-width: 500px) {
+ body { font-size:12pt; }
+ }
+</style>
+</head>
 <body>
   <div id=header>
     <h1> <a href=/>[hey<span id=j>j</span>imbo]</a>
