@@ -26,7 +26,17 @@ function ewrap(f) { return function() {
     catch(e) { arguments[1].end(e.toString()); }
 }}
 
-async function post(name) {
+function asyncMemoize(f) {
+    var memo = {};
+    async function wrapper(...args) {
+	var key = JSON.stringify(args);
+	console.log('key in memo', (key in memo));
+	if (!(key in memo)) memo[key] = await f.apply(null, args); 
+	return memo[key];
+    }
+    return wrapper;
+}
+var post = async function(name) {
     var meta = _meta.filter(x => x.name == name || x.filename == name)[0];
     if (!meta) {
 	meta = {
@@ -41,6 +51,7 @@ async function post(name) {
     if (/\.md$/.exec(filename)) content = marked(content)
     return {info: meta, title: meta.title, content: content, posts: _meta.slice(0, 5), tags:_tags}
 }
+post = asyncMemoize(post);
 
 app.get('/post/:name', ewrap(async function (req, resp) {
     var name = sanitizeFile(req.params.name)
