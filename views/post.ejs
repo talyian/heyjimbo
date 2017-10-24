@@ -1,9 +1,8 @@
 <!doctype html>
 <head prefix="og: http://ogp.me/ns#"><title>Heyjimbo - <%=title%></title>
 <link rel="icon" href="/images/favicon.png" /><meta name="viewport" content="width=device-width, initial-scale=1">
-<% if (info.image) { %>
-<meta property="og:image" content="https://www.heyjimbo.com<%=info.image%>">
-<% } %>
+<% if (info.slug) { %> <meta property="og:url" content="https://www.heyjimbo.com/post/<%=info.slug%>"> <% } %>
+<% if (info.image) { %> <meta property="og:image" content="https://www.heyjimbo.com<%=info.image%>"> <% } %>
 <style>
  body,html {
  font-size:14pt; font-family: Helvetica,Tahoma,Arial,sans; line-height:1.6; background:#222;
@@ -60,7 +59,7 @@
  <a href="/tag/<%=f%>"><%=f%></a> <% } %> <% } %>
  <hr />
  <a href="/post/about"><div>About</div></a>
- <a href="/post/privacy"><div>Privacy</div></a> 
+ <a href="/post/privacy"><div>Privacy</div></a>
 </div>
 <% } %>
 <script async src='https://www.google-analytics.com/analytics.js'></script>

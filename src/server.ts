@@ -79,7 +79,8 @@ async function getMeta() {
 	.map(s => { try { return JSON.parse(s) } catch (e) { return null }})
 	.filter(x => x);
     meta.map(m => {
-	m.name = m.name || m.filename.replace(/\.\w+$/, '');
+        m.slug = m.filename.replace(/\.\w+$/, '');
+	m.name = m.name || m.slug;
 	m.tags = m.tags || []; });
     meta.sort((a,b) => -(a.created||0) + (b.created||0));
     var _t = {};
