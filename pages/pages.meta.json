@@ -13,4 +13,4 @@
 {"filename":"gallery/tree.html", "title": "WebGL Trees", "tags": ["gallery", "procedural generation", "webgl"], "blurb": "Drawing Procedural Tree branches in WebGL", "created": 1502224583563, "image": "/images/gallery/tree.2.png"}
 {"filename":"doorserver.md", "title": "Arduino Door Remote", "tags": ["electronics", "arduino", "esp8266", "iot", "nodejs"], "blurb": "Opening my door via email - Adventures in the IoT.", "created": 1502224583564, "image": "/images/doorserver/photo.jpg"}
 {"filename":"about.html", "title": "about", "blurb": "About", "created": 0 }
-
+{"filename":"privacy.md", "title": "privacy", "blurb": "Privacy", "created": 0 }
