@@ -31,7 +31,7 @@ function asyncMemoize(f) {
     async function wrapper(...args) {
 	var key = JSON.stringify(args);
 	console.log('key in memo', (key in memo));
-	if (!(key in memo)) memo[key] = await f.apply(null, args); 
+	if (!(key in memo)) memo[key] = await f.apply(null, args);
 	return memo[key];
     }
     return wrapper;
@@ -99,35 +99,5 @@ async function getMeta() {
     _tags = Object.keys(_t);
     return _meta = meta;
 }
-
-let feedinfo = new Feed({
-    title: 'Heyjimbo',
-    description: 'A blag about procedural generation, functional programming, security, and electronics.',
-    id: 'http://heyjimbo.com/',
-    link: 'http://heyjimbo.com/',
-    image: null,  favicon: null,
-    generator: '_',
-    author: { name: 'Jimmy Tang' }
-})
-
-async function loadFeed() {
-    var results = await getMeta();
-    for(var i=0; i<results.length; i++) {
-	var x = results[i];
-	feedinfo.addItem({
-	    title: x.title,
-	    id: 'https://heyjimbo.com/post/' + x.name,
-	    link: 'https://heyjimbo.com/post/' + x.name,
-	    description: x.blurb,
-	    content: marked((await asyncReadFile(`pages/${x.filename}`)).toString()),
-	    author: [{name: "Jimmy Tang"}],
-	    date: new Date(x.created),
-	    image: x.image,
-	});
-    }
-}
-loadFeed();
-async function feed (req, resp) { resp.end(feedinfo.atom1()); }
-app.get('/atom.xml', ewrap(feed));
-app.get('/feed', ewrap(feed));
+getMeta()
 app.listen(8081, function () {console.log (this.address())})
